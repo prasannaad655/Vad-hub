@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello, World!</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+      <h1 class="title">Hello World!</h1>
+      <p id="currentTime"></p>
+      <script src="script.js"></script>
+  </body>
+</html><!DOCTYPE html><html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VAD HUB - Movies</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101010;color:white;font-family:Arial,sans-serif}
+header{background:#1b1b1b;padding:18px}
+h1{color:#ff3030;margin:0}
+input{width:100%;padding:12px;margin-top:15px;border:0;border-radius:22px}
+nav{display:flex;gap:8px;overflow:auto;padding:12px}
+button{background:#ff3030;color:white;border:0;padding:10px;border-radius:7px;cursor:pointer}
+nav button{background:#333;white-space:nowrap}
+.player{margin:12px;padding:12px;background:#202020;border-radius:10px}
+video{width:100%;max-height:400px;background:black}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:12px}
+.card{background:#202020;border-radius:10px;overflow:hidden}
+.poster{width:100%;height:160px;object-fit:cover;background:#333}
+.info{padding:10px}
+p{color:#bbb;font-size:13px}
+footer{text-align:center;padding:20px;color:#aaa}
+@media(min-width:700px){.grid{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<header>
+<h1>▶ VAD HUB</h1>
+<p>Your movie discovery website</p>
+<input id="search" placeholder="Search movies..." oninput="render()">
+</header><nav>
+<button onclick="filter('All')">All</button>
+<button onclick="filter('Classics')">Classics</button>
+</nav><div class="player">
+<h3 id="playing">Choose a movie</h3>
+<video id="video" controls playsinline></video>
+<p id="status">Choose a movie below to play a sample video.</p>
+</div><h3 style="padding-left:12px">🎬 Movie Collection</h3>
+<div class="grid" id="movies"></div><footer>VAD HUB · Watch films from authorised sources</footer><script>
+const films=[
+{
+title:"Big Buck Bunny",
+year:"2008",
+category:"Classics",
+poster:"https://peach.blender.org/wp-content/uploads/title_anouncement.jpg",
+video:"https://www.w3schools.com/html/mov_bbb.mp4",
+site:"https://peach.blender.org/"
+},
+{
+title:"Sintel",
+year:"2010",
+category:"Classics",
+poster:"https://durian.blender.org/wp-content/uploads/2010/05/03.jpg",
+video:"https://test-videos.co.uk/vids/sintel/mp4/h264/720/Sintel_720_10s_2MB.mp4",
+site:"https://durian.blender.org/"
+},
+{
+title:"Tears of Steel",
+year:"2012",
+category:"Classics",
+poster:"https://mango.blender.org/wp-content/uploads/2013/05/01_thom_celia_bridge.jpg",
+video:"https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4",
+site:"https://mango.blender.org/"
+}
+];
+
+let selected="All";
+
+function filter(c){selected=c;render()}
+
+function watch(i){
+const f=i;
+const v=document.getElementById("video");
+document.getElementById("playing").textContent=f.title;
+document.getElementById("status").textContent="Loading video...";
+v.src=f.video;
+v.load();
+v.play().then(()=>{
+document.getElementById("status").textContent="Now playing: "+f.title;
+}).catch(()=>{
+document.getElementById("status").textContent="Tap Play in the video player to start.";
+});
+document.querySelector(".player").scrollIntoView({behavior:"smooth"});
+}
+
+function render(){
+const q=document.getElementById("search").value.toLowerCase();
+const list=films.filter(f=>(selected==="All"||f.category===selected)&&f.title.toLowerCase().includes(q));
+document.getElementById("movies").innerHTML=list.map(f=>`
+<div class="card">
+<img class="poster" src="${f.poster}" alt="${f.title}">
+<div class="info">
+<strong>${f.title}</strong>
+<p>${f.year}</p>
+<button onclick='watch(${JSON.stringify(f).replace(/'/g,"&#39;")})'>▶ Watch</button>
+<button onclick="window.open('${f.site}','_blank')">Official site</button>
+</div>
+</div>`).join("");
+}
+render();
+</script></body>
+</html>
