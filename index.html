@@ -1,113 +1,523 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Hello, World!</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-      <h1 class="title">Hello World!</h1>
-      <p id="currentTime"></p>
-      <script src="script.js"></script>
-  </body>
-</html><!DOCTYPE html><html lang="en">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>VAD HUB - Movies</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VAD GALAXY | Enter Another World</title>
+
 <style>
-*{box-sizing:border-box}
-body{margin:0;background:#101010;color:white;font-family:Arial,sans-serif}
-header{background:#1b1b1b;padding:18px}
-h1{color:#ff3030;margin:0}
-input{width:100%;padding:12px;margin-top:15px;border:0;border-radius:22px}
-nav{display:flex;gap:8px;overflow:auto;padding:12px}
-button{background:#ff3030;color:white;border:0;padding:10px;border-radius:7px;cursor:pointer}
-nav button{background:#333;white-space:nowrap}
-.player{margin:12px;padding:12px;background:#202020;border-radius:10px}
-video{width:100%;max-height:400px;background:black}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:12px}
-.card{background:#202020;border-radius:10px;overflow:hidden}
-.poster{width:100%;height:160px;object-fit:cover;background:#333}
-.info{padding:10px}
-p{color:#bbb;font-size:13px}
-footer{text-align:center;padding:20px;color:#aaa}
-@media(min-width:700px){.grid{grid-template-columns:repeat(4,1fr)}}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --purple: #a855f7;
+  --bright: #d8b4fe;
+  --bg: #080510;
+  --card: #151020;
+  --muted: #a69ab8;
+}
+
+body {
+  background: var(--bg);
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 20px 6%;
+  border-bottom: 1px solid #2b1b3d;
+  background: #0c0715;
+}
+
+.logo {
+  font-size: 25px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.logo span {
+  color: var(--purple);
+}
+
+nav a {
+  color: #ddd1ec;
+  text-decoration: none;
+  margin-left: 18px;
+  font-size: 14px;
+}
+
+.hero {
+  padding: 65px 6% 55px;
+  min-height: 340px;
+  background:
+    radial-gradient(ellipse at 80% 20%, #6823a855, transparent 42%),
+    radial-gradient(ellipse at 15% 90%, #3b147455, transparent 40%),
+    linear-gradient(135deg, #10081c, #080510);
+  border-bottom: 1px solid #302040;
+}
+
+.tag {
+  display: inline-block;
+  color: var(--bright);
+  border: 1px solid #8b5cf6;
+  padding: 7px 12px;
+  border-radius: 30px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  font-size: clamp(38px, 7vw, 70px);
+  line-height: 1.05;
+  max-width: 700px;
+}
+
+.hero h1 span {
+  color: var(--purple);
+  text-shadow: 0 0 28px #a855f766;
+}
+
+.hero p {
+  color: #c1b5d0;
+  margin-top: 17px;
+  line-height: 1.7;
+  max-width: 540px;
+}
+
+.searchbox {
+  display: flex;
+  gap: 10px;
+  margin-top: 25px;
+  max-width: 550px;
+}
+
+.searchbox input {
+  flex: 1;
+  min-width: 0;
+  padding: 14px;
+  border-radius: 8px;
+  border: 1px solid #49305f;
+  background: #160d22;
+  color: white;
+  outline: none;
+}
+
+button, .button {
+  background: var(--purple);
+  color: white;
+  border: 0;
+  padding: 12px 16px;
+  border-radius: 7px;
+  font-weight: bold;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+
+button:hover, .button:hover {
+  background: #9333ea;
+}
+
+main {
+  padding: 35px 6%;
+}
+
+.section-title {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 23px;
+}
+
+.filters {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin-bottom: 25px;
+}
+
+.filters button {
+  background: #191122;
+  border: 1px solid #382348;
+  color: #d9c9e9;
+  border-radius: 25px;
+  padding: 9px 15px;
+}
+
+.filters button.active,
+.filters button:hover {
+  background: #792bd2;
+  color: white;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: var(--card);
+  border: 1px solid #2d203b;
+  border-radius: 13px;
+  overflow: hidden;
+  transition: transform .2s, border-color .2s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: var(--purple);
+}
+
+.poster {
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+  display: block;
+  background: #21132f;
+}
+
+.card-info {
+  padding: 14px;
+}
+
+.card h3 {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.meta {
+  color: var(--muted);
+  font-size: 12px;
+  margin-bottom: 13px;
+}
+
+.card button {
+  width: 100%;
+  padding: 10px;
+}
+
+.player-section {
+  margin-top: 50px;
+  padding: 22px;
+  border: 1px solid #3c2551;
+  background: linear-gradient(135deg, #160d22, #0c0715);
+  border-radius: 14px;
+}
+
+.player-section h2 {
+  margin-bottom: 8px;
+}
+
+#playing {
+  color: var(--bright);
+  margin-bottom: 16px;
+}
+
+video {
+  width: 100%;
+  max-height: 480px;
+  background: #000;
+  border-radius: 9px;
+}
+
+.player-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.secondary {
+  background: #251632;
+  border: 1px solid #5c347a;
+}
+
+#status {
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 12px;
+}
+
+footer {
+  text-align: center;
+  padding: 30px 15px;
+  color: var(--muted);
+  border-top: 1px solid #2b1b3d;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+footer strong {
+  color: var(--bright);
+}
+
+@media (max-width: 600px) {
+  header {
+    padding: 17px 5%;
+  }
+
+  .logo {
+    font-size: 20px;
+  }
+
+  nav a {
+    margin-left: 8px;
+    font-size: 12px;
+  }
+
+  .hero {
+    padding: 45px 5%;
+  }
+
+  main {
+    padding: 28px 5%;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .poster {
+    height: 175px;
+  }
+
+  .card-info {
+    padding: 10px;
+  }
+}
 </style>
 </head>
+
 <body>
+
 <header>
-<h1>▶ VAD HUB</h1>
-<p>Your movie discovery website</p>
-<input id="search" placeholder="Search movies..." oninput="render()">
-</header><nav>
-<button onclick="filter('All')">All</button>
-<button onclick="filter('Classics')">Classics</button>
-</nav><div class="player">
-<h3 id="playing">Choose a movie</h3>
-<video id="video" controls playsinline></video>
-<p id="status">Choose a movie below to play a sample video.</p>
-</div><h3 style="padding-left:12px">🎬 Movie Collection</h3>
-<div class="grid" id="movies"></div><footer>VAD HUB · Watch films from authorised sources</footer><script>
-const films=[
-{
-title:"Big Buck Bunny",
-year:"2008",
-category:"Classics",
-poster:"https://peach.blender.org/wp-content/uploads/title_anouncement.jpg",
-video:"https://www.w3schools.com/html/mov_bbb.mp4",
-site:"https://peach.blender.org/"
-},
-{
-title:"Sintel",
-year:"2010",
-category:"Classics",
-poster:"https://durian.blender.org/wp-content/uploads/2010/05/03.jpg",
-video:"https://test-videos.co.uk/vids/sintel/mp4/h264/720/Sintel_720_10s_2MB.mp4",
-site:"https://durian.blender.org/"
-},
-{
-title:"Tears of Steel",
-year:"2012",
-category:"Classics",
-poster:"https://mango.blender.org/wp-content/uploads/2013/05/01_thom_celia_bridge.jpg",
-video:"https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4",
-site:"https://mango.blender.org/"
-}
+  <div class="logo">VAD <span>GALAXY</span></div>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#movies">Movies</a>
+    <a href="#player">Watch</a>
+  </nav>
+</header>
+
+<section class="hero" id="home">
+  <div class="tag">YOUR UNIVERSE. YOUR CINEMA.</div>
+
+  <h1>ENTER A<br><span>NEW GALAXY.</span></h1>
+
+  <p>
+    Discover incredible films, explore new worlds,
+    and experience cinema your way.
+    Welcome to VAD GALAXY.
+  </p>
+
+  <div class="searchbox">
+    <input
+      id="search"
+      type="search"
+      placeholder="Search your next movie..."
+      aria-label="Search movies"
+    >
+    <button onclick="renderMovies()">Search</button>
+  </div>
+</section>
+
+<main>
+  <section id="movies">
+    <h2 class="section-title">Explore the Universe</h2>
+    <p class="subtitle">Discover films worth watching.</p>
+
+    <div class="filters">
+      <button class="active" data-category="All">All Films</button>
+      <button data-category="Animation">Animation</button>
+      <button data-category="Sci-Fi">Sci-Fi</button>
+      <button data-category="Adventure">Adventure</button>
+    </div>
+
+    <div class="grid" id="movieGrid"></div>
+  </section>
+
+  <section class="player-section" id="player">
+    <h2>🎬 Galaxy Player</h2>
+    <p id="playing">Choose a film to start watching.</p>
+
+    <video id="video" controls playsinline preload="metadata">
+      Your browser does not support video playback.
+    </video>
+
+    <div class="player-links">
+      <a id="sourceLink" class="button secondary"
+         href="https://studio.blender.org/films/"
+         target="_blank" rel="noopener noreferrer">
+        Official Film Source
+      </a>
+
+      <a id="downloadLink" class="button" href="#" hidden download>
+        Download Authorized Video
+      </a>
+    </div>
+
+    <p id="status">
+      Select a film card above. Demo videos may be short clips.
+    </p>
+  </section>
+</main>
+
+<footer>
+  <strong>VAD GALAXY</strong> — Explore Beyond the Screen.<br>
+  An independent movie discovery website.<br>
+  Only distribute films you are authorized to share.
+</footer>
+
+<script>
+const films = [
+  {
+    title: "Big Buck Bunny",
+    year: "2008",
+    category: "Animation",
+    poster: "https://peach.blender.org/wp-content/uploads/title_anouncement.jpg",
+    video: "https://www.w3schools.com/html/mov_bbb.mp4",
+    source: "https://peach.blender.org/"
+  },
+  {
+    title: "Sintel",
+    year: "2010",
+    category: "Adventure",
+    poster: "https://durian.blender.org/wp-content/uploads/2010/05/03.jpg",
+    video: "https://test-videos.co.uk/vids/sintel/mp4/h264/720/Sintel_720_10s_2MB.mp4",
+    source: "https://durian.blender.org/"
+  },
+  {
+    title: "Tears of Steel",
+    year: "2012",
+    category: "Sci-Fi",
+    poster: "https://mango.blender.org/wp-content/uploads/2013/05/01_thom_celia_bridge.jpg",
+    video: "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/720/Big_Buck_Bunny_720_10s_1MB.mp4",
+    source: "https://mango.blender.org/"
+  }
 ];
 
-let selected="All";
+let activeCategory = "All";
 
-function filter(c){selected=c;render()}
+function renderMovies() {
+  const query = document.getElementById("search").value
+    .trim()
+    .toLowerCase();
 
-function watch(i){
-const f=i;
-const v=document.getElementById("video");
-document.getElementById("playing").textContent=f.title;
-document.getElementById("status").textContent="Loading video...";
-v.src=f.video;
-v.load();
-v.play().then(()=>{
-document.getElementById("status").textContent="Now playing: "+f.title;
-}).catch(()=>{
-document.getElementById("status").textContent="Tap Play in the video player to start.";
+  const filtered = films.filter(film => {
+    const matchesText =
+      film.title.toLowerCase().includes(query) ||
+      film.category.toLowerCase().includes(query);
+
+    const matchesCategory =
+      activeCategory === "All" ||
+      film.category === activeCategory;
+
+    return matchesText && matchesCategory;
+  });
+
+  const grid = document.getElementById("movieGrid");
+  grid.innerHTML = "";
+
+  if (filtered.length === 0) {
+    grid.innerHTML =
+      '<p style="color:#c1b5d0">No films found. Try another search.</p>';
+    return;
+  }
+
+  filtered.forEach(film => {
+    const card = document.createElement("article");
+    card.className = "card";
+
+    const poster = document.createElement("img");
+    poster.className = "poster";
+    poster.src = film.poster;
+    poster.alt = film.title + " poster";
+    poster.loading = "lazy";
+
+    poster.onerror = () => {
+      poster.style.display = "none";
+    };
+
+    const info = document.createElement("div");
+    info.className = "card-info";
+
+    const title = document.createElement("h3");
+    title.textContent = film.title;
+
+    const meta = document.createElement("p");
+    meta.className = "meta";
+    meta.textContent = film.year + " • " + film.category;
+
+    const watch = document.createElement("button");
+    watch.textContent = "▶ Watch Now";
+    watch.addEventListener("click", () => playFilm(film));
+
+    info.append(title, meta, watch);
+    card.append(poster, info);
+    grid.appendChild(card);
+  });
+}
+
+function playFilm(film) {
+  const video = document.getElementById("video");
+  const download = document.getElementById("downloadLink");
+
+  document.getElementById("playing").textContent =
+    "Now selected: " + film.title;
+
+  document.getElementById("sourceLink").href = film.source;
+  document.getElementById("status").textContent =
+    "Loading demo clip. Full-film playback requires an authorized full video source.";
+
+  video.src = film.video;
+  video.load();
+
+  download.href = film.video;
+  download.hidden = true;
+
+  video.play().then(() => {
+    document.getElementById("status").textContent =
+      "Playing demo clip. Check the official film source for the full film and its licence.";
+  }).catch(() => {
+    document.getElementById("status").textContent =
+      "Tap Play in the video player. If it does not work, open the official film source.";
+  });
+
+  document.getElementById("player").scrollIntoView({
+    behavior: "smooth"
+  });
+}
+
+document.querySelectorAll(".filters button").forEach(button => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll(".filters button").forEach(b => {
+      b.classList.remove("active");
+    });
+
+    button.classList.add("active");
+    activeCategory = button.dataset.category;
+    renderMovies();
+  });
 });
-document.querySelector(".player").scrollIntoView({behavior:"smooth"});
-}
 
-function render(){
-const q=document.getElementById("search").value.toLowerCase();
-const list=films.filter(f=>(selected==="All"||f.category===selected)&&f.title.toLowerCase().includes(q));
-document.getElementById("movies").innerHTML=list.map(f=>`
-<div class="card">
-<img class="poster" src="${f.poster}" alt="${f.title}">
-<div class="info">
-<strong>${f.title}</strong>
-<p>${f.year}</p>
-<button onclick='watch(${JSON.stringify(f).replace(/'/g,"&#39;")})'>▶ Watch</button>
-<button onclick="window.open('${f.site}','_blank')">Official site</button>
-</div>
-</div>`).join("");
-}
-render();
-</script></body>
+document.getElementById("search").addEventListener("input", renderMovies);
+
+renderMovies();
+</script>
+
+</body>
 </html>
